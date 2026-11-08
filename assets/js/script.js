@@ -50,8 +50,8 @@ for (let i = 0; i < testimonialsItem.length; i++) {
 }
 
 // add click event to modal close button
-modalCloseBtn.addEventListener("click", testimonialsModalFunc);
-overlay.addEventListener("click", testimonialsModalFunc);
+if (modalCloseBtn) modalCloseBtn.addEventListener("click", testimonialsModalFunc);
+if (overlay) overlay.addEventListener("click", testimonialsModalFunc);
 
 
 
@@ -82,9 +82,19 @@ const filterFunc = function (selectedValue) {
 
   for (let i = 0; i < filterItems.length; i++) {
 
-    if (selectedValue === "all") {
+    const itemCategory = (filterItems[i].dataset.category || "").toLowerCase();
+
+    if (selectedValue === "all" || selectedValue === "semua") {
       filterItems[i].classList.add("active");
-    } else if (selectedValue === filterItems[i].dataset.category) {
+    } else if (
+      selectedValue === itemCategory ||
+      (selectedValue === "web development" && itemCategory === "pengembangan web") ||
+      (selectedValue === "pengembangan web" && itemCategory === "web development") ||
+      (selectedValue === "web design" && itemCategory === "desain web") ||
+      (selectedValue === "desain web" && itemCategory === "web design") ||
+      (selectedValue === "applications" && itemCategory === "aplikasi") ||
+      (selectedValue === "aplikasi" && itemCategory === "applications")
+    ) {
       filterItems[i].classList.add("active");
     } else {
       filterItems[i].classList.remove("active");
@@ -144,8 +154,21 @@ const pages = document.querySelectorAll("[data-page]");
 for (let i = 0; i < navigationLinks.length; i++) {
   navigationLinks[i].addEventListener("click", function () {
 
+    const target = this.innerHTML.trim().toLowerCase();
+
     for (let i = 0; i < pages.length; i++) {
-      if (this.innerHTML.toLowerCase() === pages[i].dataset.page) {
+      const page = pages[i].dataset.page.toLowerCase();
+      if (
+        target === page ||
+        (target === "tentang" && page === "about") ||
+        (target === "about" && page === "tentang") ||
+        (target === "portofolio" && page === "portfolio") ||
+        (target === "portfolio" && page === "portofolio") ||
+        (target === "kontak" && page === "contact") ||
+        (target === "contact" && page === "kontak") ||
+        (target === "riwayat" && page === "resume") ||
+        (target === "resume" && page === "riwayat")
+      ) {
         pages[i].classList.add("active");
         navigationLinks[i].classList.add("active");
         window.scrollTo(0, 0);
